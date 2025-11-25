@@ -8,6 +8,23 @@ export default function Tbox(props) {
         setText(z);
     }
 
+    const change=(event)=>{
+        event.preventDefault();
+        setText(event.target.value);
+    }
+
+    const handleToggleCase=()=>{
+        if(text.length === 0){
+            return;
+        }
+        if(text === text.toUpperCase()){
+            setText(text.toLowerCase());
+        } else{
+            setText(text.toUpperCase());
+        }
+    }
+
+
      const lowercase=(event)=>{
         event.preventDefault();
         var z = text.toLowerCase();
@@ -25,7 +42,7 @@ export default function Tbox(props) {
         }
     }
 
-       const bgchange=(event)=>{
+    const bgchange=(event)=>{
         event.preventDefault();
         if(clr.backgroundColor==='white'){
             setColor({backgroundColor:"red"});
@@ -34,10 +51,11 @@ export default function Tbox(props) {
         }
     }
 
-    const countlength=(event)=>{
-        event.preventDefault();
-        var z = text.length;
-        setText(z);
+    const [counts,setCounts] = useState({chars:0});
+
+    const countlength = ()=>{
+        const charCount = text.length;
+        setCounts({chars: charCount});
     }
 
     const handleCopy=()=>{
@@ -47,19 +65,10 @@ export default function Tbox(props) {
         }
     }
 
-    const toggle=()=>{
-        if(text === text.toUpperCase()){
-            setText(text.toLowerCase());
-        }
-        else{
-            setText(text.toUpperCase());
-        }
-    }
-
   return (
     <div className='container'>
         <div className='mb-3 mt-3 container'>
-            <textarea className='form-control' rows="5" id='comment' name='text' value={text} style={clr}></textarea>
+        <textarea className='form-control' rows="5" id='comment' name='text' value={text} style={clr} onChange={change}></textarea>
         </div>
         <div className='container' style={{textAlign:'center'}}>
         <button type='submit' className='btn btn-primary' onClick={uppercase}>upperCase</button>
@@ -67,8 +76,11 @@ export default function Tbox(props) {
         <button type='submit' className='btn btn-primary' onClick={bgchange}>bgColor</button>
         <button type='submit' className='btn btn-primary' onClick={clickhere}>textColor</button>
         <button type='submit' className='btn btn-primary' onClick={countlength}>Count</button>
-        <button type='submit' className='btn btn-primary' onClick={toggle}>toggleData</button>
+        <button type='submit' className='btn btn-primary' onClick={handleToggleCase}>toggleData</button>
         <button type='submit' className='btn btn-primary' onClick={handleCopy}>Copy</button>
+        <div>
+        <h2>Character count : {counts.chars}</h2>
+        </div>
         </div>
     <div></div>
     </div>
